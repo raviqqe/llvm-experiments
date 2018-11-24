@@ -2,4 +2,4 @@
 
 set -ex
 
-opt -enable-coroutines -O0 -S < $1 | llc
+opt -enable-coroutines -O0 < $1 | llc
