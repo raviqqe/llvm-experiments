@@ -17,17 +17,16 @@ entry:
   %hdl = call i8* @llvm.coro.begin(token %id, i8* %alloc)
   br label %loop
 loop:
-  %n.val = phi i32 [ %n, %entry ], [ %inc, %loop ]
+  %n.val = phi i32 [%n, %entry], [%inc, %loop]
   %inc = add nsw i32 %n.val, 1
   call void @print(i32 %n.val)
   %0 = call i8 @llvm.coro.suspend(token none, i1 false)
-  switch i8 %0, label %suspend_or_ret [i8 0, label %loop
-  i8 1, label %cleanup]
+  switch i8 %0, label %suspend_or_ret [i8 0, label %loop i8 1, label %cleanup]
 cleanup:
   %mem = call i8* @llvm.coro.free(token %id, i8* %hdl)
   call void @free(i8* %mem)
   br label %suspend_or_ret
 suspend_or_ret:
-  %unused = call i1 @llvm.coro.end(i8* %hdl, i1 false)
+  call i1 @llvm.coro.end(i8* %hdl, i1 false)
   ret i8* %hdl
 }
