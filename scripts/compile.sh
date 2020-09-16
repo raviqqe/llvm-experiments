@@ -2,4 +2,8 @@
 
 set -ex
 
-opt -enable-coroutines -O0 < $1 | llc
+if [ $# -ne 1 ]; then
+  exit 1
+fi
+
+opt -enable-coroutines -O0 <$1 | llc
