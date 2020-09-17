@@ -15,4 +15,4 @@ opt \
   --coro-elide \
   --tailcallopt \
   --tailcallelim \
-  <$1
+  $1
