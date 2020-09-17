@@ -32,7 +32,7 @@ resume:
 
 cleanup:
   call i1 @llvm.coro.end(i8* %hdl, i1 0)
-  unreachable
+  ret i8* null
 }
 
 define i32 @main() {
