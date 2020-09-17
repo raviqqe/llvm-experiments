@@ -9,7 +9,7 @@ declare i8* @llvm.coro.prepare.retcon(i8*)
 declare i8* @malloc(i32)
 declare void @free(i8*)
 
-declare i8* @prototype(i8*, i1)
+declare fastcc i8* @prototype(i8*, i1)
 
 define fastcc i8* @f(i8* %buffer, i32 %x) {
 entry:
@@ -26,7 +26,7 @@ resume:
   %local.buffer = bitcast [8 x i8]* %local.buffer.array to i8*
   %prepare = call i8* @llvm.coro.prepare.retcon(i8* bitcast (i8* (i8*, i32)* @f to i8*))
   %f = bitcast i8* %prepare to i8* (i8*, i32)*
-  %cont0 = call i8* %f(i8* %local.buffer, i32 %x)
+  %cont0 = tail call i8* %f(i8* %local.buffer, i32 %x)
   %cont0.cast = bitcast i8* %cont0 to i8* (i8*, i1)*
   call i8* %cont0.cast(i8* %local.buffer, i1 zeroext false)
 
